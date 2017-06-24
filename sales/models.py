@@ -28,9 +28,16 @@ class SalesOrder(models.Model):
 	#shipment_term = models.TextField(max_length=50, choices=payment_terms,default=EOM)
 	price_list_code = models.ForeignKey(PriceList, on_delete=models.CASCADE)
 	create_date = models.DateTimeField()
-	customer = models.CharField(max_length=40)
-	status = models.IntegerField(choices=status_choices, default='WIP')
+	status = models.TextField(choices=status_choices, default='WIP')
    
+	def compute_amount_all(self):
+		"""
+		Compute the total amount of the SaleOrder
+		"""
+		pass
+
+
+
 
 	def __str__(self):
 		return self.customer
@@ -39,12 +46,17 @@ class SalesOrder(models.Model):
 class SalesOrderDetails(models.Model):
 
 
-	sales_order_no = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
+	sales_order_id = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
 	product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 	#product_unit = models.IntegerField()
 	unit_price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	ordered_qty = models.DecimalField(max_digits=5, decimal_places=2)
 	delivered_qty = models.DecimalField(max_digits=5, decimal_places=2)
+	note = models.TextField(max_length=200)
+
+	class meta:
+		unique_together = ('sales_order_id', 'product_id')
+
 
 
 	def __str__(self):

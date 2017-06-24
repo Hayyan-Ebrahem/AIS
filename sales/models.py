@@ -29,6 +29,8 @@ class SalesOrder(models.Model):
 	price_list_code = models.ForeignKey(PriceList, on_delete=models.CASCADE)
 	create_date = models.DateTimeField()
 	status = models.TextField(choices=status_choices, default='WIP')
+	sales_order_items = models.ManyToManyField(Product, 
+        through='SalesOrderDetails')
    
 	def compute_amount_all(self):
 		"""

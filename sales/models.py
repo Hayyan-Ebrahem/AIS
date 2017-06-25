@@ -20,25 +20,22 @@ class SalesOrder(models.Model):
 	)
 
 	sale_order_id  = models.IntegerField(primary_key=True)
-	customer_id = models.ForeignKey(Customer, on_delete=models.CASCADE)
+	customer_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	customer_order_no = models.IntegerField()
 	customer_order_date = models.DateTimeField()
-	user_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 	payment_term = models.TextField(max_length=50, choices=payment_terms, default='EOM')
 	#shipment_term = models.TextField(max_length=50, choices=payment_terms,default=EOM)
 	price_list_code = models.ForeignKey(PriceList, on_delete=models.CASCADE)
 	create_date = models.DateTimeField()
 	status = models.TextField(choices=status_choices, default='WIP')
-	sales_order_items = models.ManyToManyField(Product, 
-        through='SalesOrderDetails')
+	#sales_order_items = models.ManyToManyField(Product, 
+    #    through='SalesOrderDetails')
    
 	def compute_amount_all(self):
 		"""
 		Compute the total amount of the SaleOrder
 		"""
 		pass
-
-
 
 
 	def __str__(self):
@@ -48,7 +45,7 @@ class SalesOrder(models.Model):
 class SalesOrderDetails(models.Model):
 
 
-	sales_order_id = models.ForeignKey(SalesOrder, on_delete=models.CASCADE)
+	sales_order_id = models.ForeignKey(SalesOrder, related_name='lines', on_delete=models.CASCADE)
 	product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 	#product_unit = models.IntegerField()
 	unit_price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
@@ -60,7 +57,9 @@ class SalesOrderDetails(models.Model):
 		unique_together = ('sales_order_id', 'product_id')
 
 
+	def total(self):
+		pass
 
 	def __str__(self):
-		return (str(self.sales_order_no), str(self.product_id))
+		return (str(self.sales_order_id), str(self.product_id))
 

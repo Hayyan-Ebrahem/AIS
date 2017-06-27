@@ -1,9 +1,8 @@
 from django.db import models
 from customer.models import Customer
 from product.models import Product,PriceList
-
 from django.conf import settings
-from djmoney.models.fields import MoneyField
+#from djmoney.models.fields import MoneyField
 
 class SalesOrder(models.Model):
 
@@ -19,8 +18,8 @@ class SalesOrder(models.Model):
 
 	)
 
-	sale_order_id  = models.IntegerField(primary_key=True)
-	customer_id = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+	sale_order_id  = models.AutoField(primary_key=True)
+	customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 	customer_order_no = models.IntegerField()
 	customer_order_date = models.DateTimeField()
 	payment_term = models.TextField(max_length=50, choices=payment_terms, default='EOM')
@@ -47,8 +46,8 @@ class SalesOrderDetails(models.Model):
 
 	sales_order_id = models.ForeignKey(SalesOrder, related_name='lines', on_delete=models.CASCADE)
 	product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-	#product_unit = models.IntegerField()
-	unit_price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
+	product_unit = models.IntegerField()
+	unit_price = models.IntegerField()
 	ordered_qty = models.DecimalField(max_digits=5, decimal_places=2)
 	delivered_qty = models.DecimalField(max_digits=5, decimal_places=2)
 	note = models.TextField(max_length=200)

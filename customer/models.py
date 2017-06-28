@@ -9,7 +9,7 @@ class Customer(models.Model):
 	payment_terms = (
 		('PIA','Payment in advance'),
 		('EOM','End of the month'),
-		('CWO','Cash with order'),
+		('CWO','Ch with order'),
 	)
 
 	customer_id = models.AutoField(primary_key=True)

@@ -23,11 +23,10 @@ class Product(models.Model):
 	slug = models.SlugField(max_length=255, unique=True, help_text='Unique value for product page URL, created from name.')
 	code = models.CharField(max_length=50)
 	price = models.IntegerField()
-	categories = models.ManyToManyField(Category, related_name='products')
+	categories = models.ManyToManyField(Category, through='ProductCategory')
 
 	class Meta:
 		ordering = ['-price']
-#
 
 	def __str__(self):
 		return self.name
@@ -35,8 +34,22 @@ class Product(models.Model):
 	def getlist(self):
 		return self.price*12
 
-class PriceList(models.Model):
-	pass
 
-class PriceListDetials(models.Model):
-	pass
+
+class ProductCategory(models.Model):
+    product_id = models.ForeignKey(Product)
+    category_id = models.ForeignKey(Category)
+    price = models.TextField()
+
+    class Meta(object):
+        unique_together = ('product_id', 'category_id')
+
+
+
+#class PriceList(models.Model):
+#	price_list_id = models.AutoField(primary_key=True)
+
+
+#class PriceListDetials(models.Model):
+#	pass
+#

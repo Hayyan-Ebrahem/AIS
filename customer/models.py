@@ -67,6 +67,9 @@ class Customer(models.Model):
 	customer_id = models.AutoField(primary_key=True)
 	customer_name = models.TextField(max_length=50)
 	customer_address = models.TextField(max_length=60)
+<<<<<<< HEAD
+>>>>>>> 6a598da... on branch customer
+=======
 >>>>>>> 6a598da... on branch customer
 	credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	credit_period = models.DurationField()

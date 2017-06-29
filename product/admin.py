@@ -5,7 +5,7 @@ from product.models import Product,Category,ProductCategory
 
 class MembershipInline(admin.TabularInline):
     model = Product.categories.through
-    extra = 1
+    extra = 3
 
 
 class ProductAdmin(admin.ModelAdmin):

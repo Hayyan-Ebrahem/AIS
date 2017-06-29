@@ -55,6 +55,7 @@ class Customer(models.Model):
 		('DWT','Deadweight Tonnage'),
 	)
 
+<<<<<<< HEAD
 	code = models.TextField(primary_key=True, max_length=30)
 	name = models.TextField(max_length=30, unique=True)
 	address = models.TextField(max_length=50)
@@ -62,6 +63,11 @@ class Customer(models.Model):
 	email = models.TextField(max_length=30, unique=True)
 	category_code = models.ForeignKey(CustomerCategory, on_delete=models.CASCADE)
 	#chart_of_account = models.TextField(max_length=30)
+=======
+	customer_id = models.AutoField(primary_key=True)
+	customer_name = models.TextField(max_length=50)
+	customer_address = models.TextField(max_length=60)
+>>>>>>> 6a598da... on branch customer
 	credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	credit_period = models.DurationField()
 	payment_term = models.CharField(max_length=50, choices=payment_terms, default='EOM')

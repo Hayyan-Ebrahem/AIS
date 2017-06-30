@@ -38,7 +38,7 @@ class SalesOrder(models.Model):
 
 
 	def __str__(self):
-		return self.customer
+		return self.customer.customer_name
 
 
 class SalesOrderDetails(models.Model):

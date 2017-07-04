@@ -39,7 +39,8 @@ class Product(models.Model):
 class ProductCategory(models.Model):
     product_id = models.ForeignKey(Product)
     category_id = models.ForeignKey(Category)
-    price = models.TextField()
+    price = models.IntegerField()
+
 
     class Meta(object):
         unique_together = ('product_id', 'category_id')

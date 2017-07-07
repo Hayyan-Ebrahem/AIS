@@ -41,15 +41,15 @@ class SalesOrder(models.Model):
 		return str(self.sale_order_id)
 
 
-class SalesOrderDetails(models.Model):
+class SalesOrderDetail(models.Model):
 
 
-	sales_order_id = models.ForeignKey(SalesOrder, related_name='lines', on_delete=models.CASCADE)
+	order_id = models.ForeignKey(SalesOrder, related_name='lines', on_delete=models.CASCADE)
 	product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
 	product_unit = models.IntegerField()
 	unit_price = models.IntegerField()
-	ordered_qty = models.DecimalField(max_digits=5, decimal_places=2)
-	delivered_qty = models.DecimalField(max_digits=5, decimal_places=2)
+	ordered_qty = models.IntegerField()
+	delivered_qty = models.IntegerField()
 	note = models.TextField(max_length=200)
 
 	class meta:

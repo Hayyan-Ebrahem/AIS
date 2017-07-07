@@ -31,6 +31,7 @@ class Product(models.Model):
 	def __str__(self):
 		return self.name
 
+
 	def getlist(self):
 		return self.price*12
 

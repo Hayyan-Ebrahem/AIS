@@ -1,7 +1,7 @@
 from django.contrib import admin
-from sales.models import SalesOrder, SalesOrderDetails
+from sales.models import SalesOrder, SalesOrderDetail
 # Register your models here.
 
 admin.site.register(SalesOrder)
-admin.site.register(SalesOrderDetails)
+admin.site.register(SalesOrderDetail)
 

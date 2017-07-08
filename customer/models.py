@@ -14,7 +14,7 @@ class Customer(models.Model):
 	)
 
 	id = models.AutoField(primary_key=True)
-	name = models.TextField(max_length=30)
+	name = models.TextField(max_length=25)
 	address = models.TextField(max_length=50)
 	phone_no = models.TextField(max_length=10)
 	email = models.TextField(max_length=30)

@@ -14,7 +14,7 @@ class Customer(models.Model):
 
 	customer_id = models.AutoField(primary_key=True)
 
-	customer_name = models.TextField(max_length=30)
+	customer_name = models.TextField(max_length=31)
 
 	#customer_address = models.TextField(max_length=50)
 	credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')

@@ -9,7 +9,7 @@ class MembershipInline(admin.TabularInline):
 
 
 class ProductAdmin(admin.ModelAdmin):
-	list_display = ('name','code')
+	list_display = ('name','product_code')
 	inlines = [
         MembershipInline,
     ]

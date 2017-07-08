@@ -1,11 +1,10 @@
 from django.db import models
 #from djmoney.models.fields import MoneyField
 
-
-
 class Category(models.Model):
 	category_id = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=42)
+	category_code = models.TextField(max_length=10)
+	name = models.CharField(max_length=20)
 	description = models.TextField()
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -21,9 +20,15 @@ class Product(models.Model):
 	product_id = models.AutoField(primary_key=True)
 	name = models.CharField(max_length=255, unique=True, )
 	slug = models.SlugField(max_length=255, unique=True, help_text='Unique value for product page URL, created from name.')
-	code = models.CharField(max_length=50)
+	product_code = models.CharField(max_length=10)
 	price = models.IntegerField()
 	categories = models.ManyToManyField(Category, through='ProductCategory')
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+	#warehouse_code = models.ForeignKey(warehouse)
+	max_stock_level = models.DecimalField(max_digits=5, decimal_places=2)
+	min_stock_level = models.DecimalField(max_digits=5, decimal_places=2)
+	recorded_stock_level = models.DecimalField(max_digits=5, decimal_places=2)
 
 	class Meta:
 		ordering = ['-price']
@@ -35,8 +40,6 @@ class Product(models.Model):
 	def getlist(self):
 		return self.price*12
 
-
-
 class ProductCategory(models.Model):
     product_id = models.ForeignKey(Product)
     category_id = models.ForeignKey(Category)
@@ -46,11 +49,31 @@ class ProductCategory(models.Model):
         unique_together = ('product_id', 'category_id')
 
 
+class PriceList(models.Model):
 
-#class PriceList(models.Model):
-#	price_list_id = models.AutoField(primary_key=True)
+	status = (
+		('WIP','Payment in advance'),
+		('EOM','End of the month'),
+		('CWO','Cash with order'),
+	)
 
 
-#class PriceListDetials(models.Model):
-#	pass
-#
+	price_list_code = models.AutoField(primary_key=True)
+	description = models.TextField(max_length=100)
+	created_at = models.DateTimeField(auto_now_add=True)
+	validate_till = models.DateField()
+	blocked_till = models.DateField()
+	status = models.CharField(max_length=10, choices=status, default='WIP')
+
+	def __str__(self):
+		return str(self.price_list_code)
+
+
+class PriceListDetials(models.Model):
+	price_list_code = models.ForeignKey(PriceList)
+	product_code = models.ForeignKey(Product)
+	product_unit = models.TextField(max_length=10)
+	unit_price = models.DecimalField(max_digits=5, decimal_places=2)
+
+	def __str__(self):
+		return '%s,%s' % (self.price_list_code, self.product_code)

@@ -50,7 +50,6 @@ class ProductCategory(models.Model):
 
 
 class PriceList(models.Model):
-
 	price_list_code = models.AutoField(primary_key=True)
 	description = models.TextField(max_length=100)
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -62,7 +61,7 @@ class PriceList(models.Model):
 		return str(self.price_list_code)
 
 
-class PriceListDetials(models.Model):
+class PriceListDetial(models.Model):
 	price_list_code = models.ForeignKey(PriceList)
 	product_code = models.ForeignKey(Product)
 	product_unit = models.TextField(max_length=10)

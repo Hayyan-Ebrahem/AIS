@@ -40,23 +40,23 @@ class Product(models.Model):
 		return self.price*12
 
 
-class PriceList(models.Model):
-	code = models.CharField(max_length=10, unique=True)
-	description = models.TextField(max_length=20)
-	created_at = models.DateTimeField(auto_now_add=True)
-	validate_till = models.DateField()
-	blocked_till = models.DateField()
-	status = models.BooleanField(default=True)
+# class PriceList(models.Model):
+# 	code = models.CharField(max_length=10, unique=True)
+# 	description = models.TextField(max_length=20)
+# 	created_at = models.DateTimeField(auto_now_add=True)
+# 	validate_till = models.DateField()
+# 	blocked_till = models.DateField()
+# 	status = models.BooleanField(default=True)
 
-	def __str__(self):
-		return str(self.code)
+# 	def __str__(self):
+# 		return str(self.code)
 
 
-class PriceListDetial(models.Model):
-	price_list_code = models.ForeignKey(PriceList, related_name='price_code')
-	product_code = models.ForeignKey(Product, related_name='product')
-	product_unit = models.TextField(max_length=10)
-	unit_price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
+# class PriceListDetial(models.Model):
+# 	price_list_code = models.ForeignKey(PriceList, related_name='price_code')
+# 	product_code = models.ForeignKey(Product, related_name='product')
+# 	product_unit = models.TextField(max_length=10)
+# 	unit_price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 
-	def __str__(self):
-		return '%s,%s' % (self.price_list_code, self.product_code)
+# 	def __str__(self):
+# 		return '%s,%s' % (self.price_list_code, self.product_code)

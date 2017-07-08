@@ -1,7 +1,6 @@
 from django.db import models
 from customer.models import Customer
-from product.models import Product, PriceList
-from django.conf import settings
+from product.models import Product
 #from djmoney.models.fields import MoneyField
 
 class SalesOrder(models.Model):
@@ -24,7 +23,7 @@ class SalesOrder(models.Model):
 	customer_order_date = models.DateTimeField()
 	payment_term = models.CharField(max_length=5, choices=payment_terms, default='EOM')
 	#shipment_term = models.TextField(max_length=50, choices=payment_terms,default=EOM)
-	price_list_code = models.ForeignKey(PriceList, related_name='price_list', on_delete=models.CASCADE)
+	#price_list_code = models.ForeignKey(PriceList, related_name='price_list', on_delete=models.CASCADE)
 	create_date = models.DateTimeField()
 	status = models.CharField(max_length=5, choices=status_choices, default='WIP')
 	#sales_order_items = models.ManyToManyField(Product, 

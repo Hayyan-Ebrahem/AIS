@@ -41,7 +41,7 @@ class SalesOrderDetail(models.Model):
 	#unit_price = models.IntegerField()
 	ordered_qty = models.IntegerField()
 	delivered_qty = models.IntegerField()
-	note = models.TextField(max_length=200)
+	note = models.TextField(max_length=50)
 
 	class meta:
 		unique_together = ('sales_order_id', 'product_id')

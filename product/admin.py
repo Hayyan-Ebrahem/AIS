@@ -14,7 +14,6 @@ class ProductAdmin(admin.ModelAdmin):
         MembershipInline,
     ]
 
-
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Category)
 admin.site.register(PriceList)

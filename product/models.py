@@ -3,7 +3,7 @@ from django.db import models
 
 class Category(models.Model):
 	category_id = models.AutoField(primary_key=True)
-	category_code = models.TextField(max_length=10)
+	category_code = models.CharField(max_length=10)
 	name = models.CharField(max_length=20)
 	description = models.TextField()
 	created_at = models.DateTimeField(auto_now_add=True)

@@ -22,11 +22,11 @@ class SalesOrder(models.Model):
 	customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
 	customer_order_no = models.IntegerField()
 	customer_order_date = models.DateTimeField()
-	payment_term = models.TextField(max_length=50, choices=payment_terms, default='EOM')
+	payment_term = models.CharField(max_length=5, choices=payment_terms, default='EOM')
 	#shipment_term = models.TextField(max_length=50, choices=payment_terms,default=EOM)
 	price_list_code = models.ForeignKey(PriceList, related_name='price_list', on_delete=models.CASCADE)
 	create_date = models.DateTimeField()
-	status = models.TextField(choices=status_choices, default='WIP')
+	status = models.CharField(max_length=5, choices=status_choices, default='WIP')
 	#sales_order_items = models.ManyToManyField(Product, 
     #    through='SalesOrderDetails')
    

@@ -1,7 +1,6 @@
 from django.db import models
 from customer.models import Customer
 from product.models import Product
-from django.conf import settings
 #from djmoney.models.fields import MoneyField
 
 class SalesOrder(models.Model):
@@ -20,22 +19,15 @@ class SalesOrder(models.Model):
 
 	sale_order_id  = models.AutoField(primary_key=True)
 	customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-	customer_order_no = models.IntegerField()
+	customer_order_no = models.TextField(max_length='10')
 	customer_order_date = models.DateTimeField()
-	payment_term = models.TextField(max_length=50, choices=payment_terms, default='EOM')
+	payment_term = models.CharField(max_length=5, choices=payment_terms, default='EOM')
 	#shipment_term = models.TextField(max_length=50, choices=payment_terms,default=EOM)
-	#price_list_code = models.ForeignKey(PriceList, on_delete=models.CASCADE)
-	create_date = models.DateTimeField()
-	status = models.TextField(choices=status_choices, default='WIP')
+	#price_list_code = models.ForeignKey(PriceList, related_name='price_list', on_delete=models.CASCADE)
+	create_at = models.DateTimeField(auto_now_add=True)
+	status = models.CharField(max_length=5, choices=status_choices, default='WIP')
 	#sales_order_items = models.ManyToManyField(Product, 
     #    through='SalesOrderDetails')
-   
-	def compute_amount_all(self):
-		"""
-		Compute the total amount of the SaleOrder
-		"""
-		pass
-
 
 	def __str__(self):
 		return str(self.sale_order_id)
@@ -43,14 +35,13 @@ class SalesOrder(models.Model):
 
 class SalesOrderDetail(models.Model):
 
-
 	order_id = models.ForeignKey(SalesOrder, related_name='lines', on_delete=models.CASCADE)
-	product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
+	product_id = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE)
 	product_unit = models.IntegerField()
-	unit_price = models.IntegerField()
+	#unit_price = models.IntegerField()
 	ordered_qty = models.IntegerField()
 	delivered_qty = models.IntegerField()
-	note = models.TextField(max_length=200)
+	note = models.TextField(max_length=50)
 
 	class meta:
 		unique_together = ('sales_order_id', 'product_id')

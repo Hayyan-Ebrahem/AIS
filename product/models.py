@@ -2,8 +2,7 @@ from django.db import models
 #from djmoney.models.fields import MoneyField
 
 class Category(models.Model):
-	category_id = models.AutoField(primary_key=True)
-	category_code = models.CharField(max_length=10)
+	category_code = models.CharField(max_length=10, unique=True)
 	name = models.CharField(max_length=20)
 	description = models.TextField()
 	created_at = models.DateTimeField(auto_now_add=True)
@@ -18,11 +17,11 @@ class Category(models.Model):
 
 class Product(models.Model):
 	product_id = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=255, unique=True, )
-	slug = models.SlugField(max_length=255, unique=True, help_text='Unique value for product page URL, created from name.')
+	name = models.CharField(max_length=20, unique=True, )
+	slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
 	product_code = models.CharField(max_length=10)
 	price = models.IntegerField()
-	categories = models.ManyToManyField(Category, through='ProductCategory')
+	category_code = models.ForeignKey(Category)
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	#warehouse_code = models.ForeignKey(warehouse)
@@ -40,18 +39,10 @@ class Product(models.Model):
 	def getlist(self):
 		return self.price*12
 
-class ProductCategory(models.Model):
-    product_id = models.ForeignKey(Product)
-    category_id = models.ForeignKey(Category)
-    #price = models.IntegerField()
-
-    class Meta(object):
-        unique_together = ('product_id', 'category_id')
-
 
 class PriceList(models.Model):
 	price_list_code = models.AutoField(primary_key=True)
-	description = models.TextField(max_length=100)
+	description = models.TextField(max_length=20)
 	created_at = models.DateTimeField(auto_now_add=True)
 	validate_till = models.DateField()
 	blocked_till = models.DateField()

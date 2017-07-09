@@ -37,7 +37,7 @@ class Customer(models.Model):
 	category_code = models.ForeignKey(CustomerCategory, on_delete=models.CASCADE)
 	chart_of_account = models.TextField(max_length=30)
 	credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
-	credit_period = models.PositiveSmallIntegerField()
+	credit_period = models.DateField()
 	payment_term = models.TextField(max_length=50, choices=payment_terms, default='EOM')
 	shipping_term = models.TextField(max_length=50, choices=shipping_terms, default='CIF')
 	ref_document_no = models.TextField(max_length=10)

@@ -35,13 +35,11 @@ class SalesOrder(models.Model):
 
 class SalesOrderDetail(models.Model):
 
-	order_id = models.ForeignKey(SalesOrder, related_name='lines', on_delete=models.CASCADE)
+	order_id = models.ForeignKey(SalesOrder, related_name='items', on_delete=models.CASCADE)
 	product_id = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE)
-	product_unit = models.IntegerField()
-	#unit_price = models.IntegerField()
 	ordered_qty = models.IntegerField()
 	delivered_qty = models.IntegerField()
-	note = models.TextField(max_length=50)
+	note = models.TextField(max_length=50, blank=True)
 
 	class meta:
 		unique_together = ('sales_order_id', 'product_id')
@@ -51,5 +49,5 @@ class SalesOrderDetail(models.Model):
 		pass
 
 	def __str__(self):
-		return (str(self.sales_order_id), str(self.product_id))
+		return '%s %s' %(self.order_id,self.product_id)
 

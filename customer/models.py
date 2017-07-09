@@ -33,7 +33,7 @@ class Customer(models.Model):
 	name = models.TextField(max_length=30, unique=True)
 	address = models.TextField(max_length=50)
 	phone_no = models.TextField(max_length=30, unique=True)
-	email = models.TextField(max_length=30, unique=True)
+	email = models.EmailField(max_length=30, unique=True)
 	category_code = models.ForeignKey(CustomerCategory, on_delete=models.CASCADE)
 	#chart_of_account_no = models.TextField(max_length=30)
 	credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')

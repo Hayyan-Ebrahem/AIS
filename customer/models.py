@@ -33,9 +33,9 @@ class Customer(models.Model):
 	name = models.TextField(max_length=30, unique=True)
 	address = models.TextField(max_length=50)
 	phone_no = models.TextField(max_length=30, unique=True)
-	email = models.TextField(max_length=30, unique=True)
+	email = models.EmailField(max_length=30, unique=True)
 	category_code = models.ForeignKey(CustomerCategory, on_delete=models.CASCADE)
-	#chart_of_account = models.TextField(max_length=30)
+	#chart_of_account_no = models.TextField(max_length=30)
 	credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	credit_period = models.DurationField()
 	payment_term = models.CharField(max_length=50, choices=payment_terms, default='EOM')
@@ -49,8 +49,8 @@ class Customer(models.Model):
 	#should be related to user table will be done later
 	status = models.BooleanField()
 	#if 0 the status will appear Blocked, if 1 the status will appear active
-	active_till_date = models.DateField()
-	blocked_till_date = models.DateField()
+	active_till_date = models.DateField(blank=True, null=True)
+	blocked_till_date = models.DateField(blank=True, null=True)
 	#price_list_code = models.ForeignKey(PriceList, on_delete=models.CASCADE)
 
 	def __str__(self):

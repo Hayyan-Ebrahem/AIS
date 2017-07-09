@@ -1,5 +1,4 @@
 from django.db import models
-from djmoney.models.fields import MoneyField
 
 class Category(models.Model):
 	code = models.CharField(max_length=10, unique=True)
@@ -17,10 +16,9 @@ class Category(models.Model):
 
 class Product(models.Model):
 	product_id = models.AutoField(primary_key=True)
-	name = models.CharField(max_length=20, unique=True, )
+	name = models.TextField(max_length=20 )
 	slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
 	product_code = models.CharField(max_length=10)
-	price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	category_code = models.ForeignKey(Category, related_name='category')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -30,14 +28,10 @@ class Product(models.Model):
 	recorded_stock_level = models.DecimalField(max_digits=5, decimal_places=2)
 
 	class Meta:
-		ordering = ['-price']
+		ordering = ['-created_at']
 
 	def __str__(self):
 		return self.name
-
-
-	def getlist(self):
-		return self.price*12
 
 
 # class PriceList(models.Model):

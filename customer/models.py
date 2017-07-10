@@ -2,6 +2,8 @@ from django.db import models
 from djmoney.models.fields import MoneyField
 from django.conf import settings
 from django.db.models.functions import Concat
+import datetime
+from datetime import timedelta
 
 
 # from product.models import PriceList
@@ -34,6 +36,18 @@ class Customer(models.Model):
         ('DWT', 'Deadweight Tonnage'),
     )
 
+    first_period = datetime.timedelta(days=30)
+    second_period = datetime.timedelta(days=60)
+    third_period = datetime.timedelta(days=90)
+
+    duration_choices = ((first_period, '30'), (second_period, '60'), (third_period, '90'))
+
+    first_choice = 'day'
+    second_choice = 'month'
+    third_choice = 'year'
+
+    period_choices=((first_choice, 'day'), (second_choice, 'month'), (third_choice, 'year'))
+
     code = models.TextField(primary_key=True, max_length=30)
     name = models.TextField(max_length=30, unique=True)
     address = models.TextField(max_length=50)
@@ -42,7 +56,8 @@ class Customer(models.Model):
     category_code = models.ManyToManyField(Category,through='CustomerCategory')
     # chart_of_account_no = models.TextField(max_length=30)
     credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
-    credit_period = models.DurationField()
+    period_unit = models.TextField(choices=period_choices, default=first_choice)
+    credit_period = models.DurationField(choices=duration_choices, default=first_period)
     #need to check how to add durtion unit??
     payment_term = models.CharField(max_length=50, choices=payment_terms, default='EOM')
     shipping_term = models.CharField(max_length=50, choices=shipping_terms, default='CIF')

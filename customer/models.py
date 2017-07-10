@@ -43,6 +43,7 @@ class Customer(models.Model):
     # chart_of_account_no = models.TextField(max_length=30)
     credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
     credit_period = models.DurationField()
+    #need to check how to add durtion unit??
     payment_term = models.CharField(max_length=50, choices=payment_terms, default='EOM')
     shipping_term = models.CharField(max_length=50, choices=shipping_terms, default='CIF')
     ref_document_no = models.TextField(max_length=10)

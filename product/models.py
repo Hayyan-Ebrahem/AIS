@@ -21,7 +21,7 @@ class Product(models.Model):
 	name = models.TextField(max_length=20)
 	slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
 	product_code = models.CharField(max_length=10)
-	categories = models.ManyToManyField(Category, through='ProductCategories')
+	categories = models.ManyToManyField(Category)
 	price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
@@ -36,16 +36,16 @@ class Product(models.Model):
 	def __str__(self):
 		return self.name
 
-class ProductCategories(models.Model):
-	product = models.ForeignKey(Product, on_delete=models.CASCADE)
-	category = models.ForeignKey(Category, on_delete=models.CASCADE)
-	discount = models.BooleanField(default=False)
+# class ProductCategories(models.Model):
+	# product = models.ForeignKey(Product, on_delete=models.CASCADE)
+	# category = models.ForeignKey(Category, on_delete=models.CASCADE)
+	# discount = models.BooleanField(default=False)
 
-	class Meta:
-		verbose_name_plural = 'Product Categories'
+	# class Meta:
+	# 	verbose_name_plural = 'Product Categories'
 
-	def __str__(self):
-		return '%s-%s' %(self.product.name,self.category.code)
+	# def __str__(self):
+	# 	return '%s-%s' %(self.product.name,self.category.code)
 
 # class PriceList(models.Model):
 # 	code = models.CharField(max_length=10, unique=True)

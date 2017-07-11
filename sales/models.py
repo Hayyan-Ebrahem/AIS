@@ -20,7 +20,7 @@ class SalesOrder(models.Model):
 	)
 
 	sale_order_id  = models.AutoField(primary_key=True)
-	customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+	customer = models.ForeignKey(Customer, related_name='orders',  on_delete=models.CASCADE)
 	customer_order_no = models.TextField(max_length='10')
 	customer_order_date = models.DateTimeField()
 	payment_term = models.CharField(max_length=5, choices=payment_terms, default='EOM')
@@ -30,20 +30,25 @@ class SalesOrder(models.Model):
 	status = models.CharField(max_length=5, choices=status_choices, default='WIP')
 	#sales_order_items = models.ManyToManyField(Product, 
     #    through='SalesOrderDetails')
+	class Meta:
+ 		ordering = ['-create_at']
+		#verbose_name = 'Order'
+		#verbose_name_plural = 'Orders'
 
 	def __str__(self):
-		return str(self.sale_order_id)
+		return '#%d' % (self.sale_order_id)
 
 
 class SalesOrderDetail(models.Model):
 
 	order_id = models.ForeignKey(SalesOrder, related_name='items', on_delete=models.CASCADE)
-	product = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE)
+	product = models.ForeignKey(Product, related_name='+', on_delete=models.CASCADE)
 	ordered_qty = models.IntegerField()
 	delivered_qty = models.IntegerField()
-	note = models.TextField(max_length=50, blank=True)
-
+	note = models.TextField(max_length=20, blank=True)
 	class meta:
+		verbose_name = 'Ordered item'
+		verbose_name_plural = 'Ordered items'
 		unique_together = ('order_id', 'product')
 
 
@@ -51,5 +56,5 @@ class SalesOrderDetail(models.Model):
 		pass
 
 	def __str__(self):
-		return '%s %s' %(self.order_id,self.product)
+		return self.product
 

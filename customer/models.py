@@ -1,5 +1,5 @@
 from django.db import models
-from djmoney.models.field import MoneyField
+from djmoney.models.fields import MoneyField
 from django.conf import settings
 from django.db.models.functions import Concat
 import datetime
@@ -55,7 +55,7 @@ class Customer(models.Model):
     email = models.EmailField(max_length=30, unique=True)
     category_code = models.ManyToManyField(Category,through='CustomerCategory')
     # chart_of_account_no = models.TextField(max_length=30)
-    credit_limit = MoneyField(max_digits=10, decimal_places=2, default='USD')
+    credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
     period_unit = models.TextField(choices=period_choices, default=first_choice)
     credit_period = models.DurationField(choices=duration_choices, default=first_period)
     #need to check how to add duration unit??

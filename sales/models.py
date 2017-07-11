@@ -1,7 +1,7 @@
 from django.db import models
 from customer.models import Customer
 from product.models import Product
-from djmoney.models.fields import MoneyField
+
 
 #from djmoney.models.fields import MoneyField
 
@@ -38,19 +38,18 @@ class SalesOrder(models.Model):
 class SalesOrderDetail(models.Model):
 
 	order_id = models.ForeignKey(SalesOrder, related_name='items', on_delete=models.CASCADE)
-	product_name = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE)
+	product = models.ForeignKey(Product, related_name='products', on_delete=models.CASCADE)
 	ordered_qty = models.IntegerField()
 	delivered_qty = models.IntegerField()
-	price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	note = models.TextField(max_length=50, blank=True)
 
 	class meta:
-		unique_together = ('sales_order_id', 'product_name')
+		unique_together = ('order_id', 'product')
 
 
 	def total(self):
 		pass
 
 	def __str__(self):
-		return '%s %s' %(self.order_id,self.product_name)
+		return '%s %s' %(self.order_id,self.product)
 

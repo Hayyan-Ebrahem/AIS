@@ -16,7 +16,7 @@ class Category(models.Model):
     user_id = models.TextField(max_length=15)
     # should be related to user table will be done later
 
-    class metta:
+    class meta:
     	verbose_name_plural = 'Categories'
 
     def __str__(self):
@@ -55,7 +55,7 @@ class Customer(models.Model):
     email = models.EmailField(max_length=30, unique=True)
     category_code = models.ManyToManyField(Category,through='CustomerCategory')
     # chart_of_account_no = models.TextField(max_length=30)
-    credit_limit = MoneyField(max_digits=10, decimal_places=2, FIELDNAME = models.SmallIntegerField() = models.PositiveSmallIntegerField()='USD')
+    credit_limit = MoneyField(max_digits=10, decimal_places=2, default='USD')
     period_unit = models.TextField(choices=period_choices, default=first_choice)
     credit_period = models.DurationField(choices=duration_choices, default=first_period)
     #need to check how to add duration unit??

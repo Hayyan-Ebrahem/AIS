@@ -21,7 +21,7 @@ class Product(models.Model):
 	name = models.TextField(max_length=20)
 	slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
 	product_code = models.CharField(max_length=10)
-	categories = models.ManyToManyField(Category)
+	categories = models.ManyToManyField(Category, related_name='products')
 	price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)

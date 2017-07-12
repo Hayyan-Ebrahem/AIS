@@ -1,5 +1,5 @@
 from django.db import models
-from djmoney.models.fields import MoneyField
+from djmoney.models.field import MoneyField
 from django.conf import settings
 from django.db.models.functions import Concat
 import datetime
@@ -10,7 +10,7 @@ from datetime import timedelta
 
 class Category(models.Model):
     code = models.TextField(primary_key=True, max_length=30)
-    name = models.TextField(max_length=50, unique=True)
+    name  = models.TextField(max_length=50, unique=True)
     created_at = models.DateField(auto_now_add=True)
     # should be related to user table will be done later
     user_id = models.TextField(max_length=15)
@@ -27,13 +27,13 @@ class Customer(models.Model):
     payment_terms = (
         ('PIA', 'Payment in advance'),
         ('EOM', 'End of the month'),
-        ('CWO', 'Chash with order'),
+        ('CWO', 'Cash with order'),
     )
 
     shipping_terms = (
         ('CIF', 'Cost, Insurance and Freight'),
         ('COP', 'Customs of the Port'),
-        ('DWT', 'Deadweight Tonnage'),
+        ('DWT', 'Dead weight Tonnage'),
     )
 
     first_period = datetime.timedelta(days=30)
@@ -55,10 +55,10 @@ class Customer(models.Model):
     email = models.EmailField(max_length=30, unique=True)
     category_code = models.ManyToManyField(Category,through='CustomerCategory')
     # chart_of_account_no = models.TextField(max_length=30)
-    credit_limit = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
+    credit_limit = MoneyField(max_digits=10, decimal_places=2, FIELDNAME = models.SmallIntegerField() = models.PositiveSmallIntegerField()='USD')
     period_unit = models.TextField(choices=period_choices, default=first_choice)
     credit_period = models.DurationField(choices=duration_choices, default=first_period)
-    #need to check how to add durtion unit??
+    #need to check how to add duration unit??
     payment_term = models.CharField(max_length=50, choices=payment_terms, default='EOM')
     shipping_term = models.CharField(max_length=50, choices=shipping_terms, default='CIF')
     ref_document_no = models.TextField(max_length=10)

@@ -18,7 +18,7 @@ class Category(models.Model):
 
 class Product(models.Model):
 	product_id = models.AutoField(primary_key=True)
-	name = models.TextField(max_length=20)
+	name = models.TextField(max_length=10)
 	slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
 	product_code = models.CharField(max_length=10)
 	categories = models.ManyToManyField(Category, related_name='products')

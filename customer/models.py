@@ -48,10 +48,10 @@ class Customer(models.Model):
 
     period_choices=((first_choice, 'day'), (second_choice, 'month'), (third_choice, 'year'))
 
-    code = models.TextField(primary_key=True, max_length=30)
-    name = models.TextField(max_length=30, unique=True)
-    address = models.TextField(max_length=50)
-    phone_no = models.TextField(max_length=30, unique=True)
+    code = models.CharField(primary_key=True, max_length=10)
+    name = models.TextField(max_length=10, unique=True)
+    address = models.TextField(max_length=20)
+    phone_no = models.CharField(max_length=10, unique=True)
     email = models.EmailField(max_length=30, unique=True)
     category_code = models.ManyToManyField(Category,through='CustomerCategory')
     # chart_of_account_no = models.TextField(max_length=30)

@@ -1,6 +1,7 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
-
+from django.core.validators import MinValueValidator
+import uuid
 
 class Category(models.Model):
 	code = models.CharField(max_length=10, unique=True)
@@ -17,7 +18,7 @@ class Category(models.Model):
 		return self.name
 
 class Product(models.Model):
-	product_id = models.AutoField(primary_key=True)
+	product_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 	name = models.TextField(max_length=10)
 	slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
 	product_code = models.CharField(max_length=10)
@@ -26,9 +27,9 @@ class Product(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
 	updated_at = models.DateTimeField(auto_now=True)
 	#warehouse_code = models.ForeignKey(warehouse)
-	max_stock_level = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-	min_stock_level = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-	recorded_stock_level = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+	max_stock_level = models.PositiveIntegerField()
+	min_stock_level = models.PositiveIntegerField()
+	recorded_stock_level = models.PositiveIntegerField()
 
 	class Meta:
 		ordering = ['-created_at']

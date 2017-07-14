@@ -1,7 +1,10 @@
 from django.db import models
 from customer.models import Customer
 from product.models import Product
-from django.conf import settings
+from django.core.validators import MinValueValidator
+import uuid
+
+
 #from djmoney.models.fields import MoneyField
 
 class SalesOrder(models.Model):
@@ -19,46 +22,38 @@ class SalesOrder(models.Model):
 	)
 
 	sale_order_id  = models.AutoField(primary_key=True)
-	customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+	customer = models.ForeignKey(Customer, related_name='orders',  on_delete=models.CASCADE)
 	customer_order_no = models.IntegerField()
 	customer_order_date = models.DateTimeField()
-	payment_term = models.TextField(max_length=50, choices=payment_terms, default='EOM')
-	#shipment_term = models.TextField(max_length=50, choices=payment_terms,default=EOM)
-	#price_list_code = models.ForeignKey(PriceList, on_delete=models.CASCADE)
-	create_date = models.DateTimeField()
-	status = models.TextField(choices=status_choices, default='WIP')
-	#sales_order_items = models.ManyToManyField(Product, 
-    #    through='SalesOrderDetails')
-   
-	def compute_amount_all(self):
-		"""
-		Compute the total amount of the SaleOrder
-		"""
-		pass
+	payment_term = models.CharField(max_length=5, choices=payment_terms, default='EOM')
+	create_at = models.DateTimeField(auto_now_add=True)
+	status = models.CharField(max_length=5, choices=status_choices, default='WIP')
 
+	class Meta:
+ 		ordering = ['-create_at']
+		#verbose_name = 'Order'
+		#verbose_name_plural = 'Orders'
 
 	def __str__(self):
-		return str(self.sale_order_id)
+		return '#%d' % (self.sale_order_id)
 
 
 class SalesOrderDetail(models.Model):
 
-
-	order_id = models.ForeignKey(SalesOrder, related_name='lines', on_delete=models.CASCADE)
-	product_id = models.ForeignKey(Product, on_delete=models.CASCADE)
-	product_unit = models.IntegerField()
-	unit_price = models.IntegerField()
-	ordered_qty = models.IntegerField()
-	delivered_qty = models.IntegerField()
-	note = models.TextField(max_length=200)
-
+	order_id = models.ForeignKey(SalesOrder, related_name='items', on_delete=models.CASCADE)
+	product = models.ForeignKey(Product, related_name='+', on_delete=models.CASCADE)
+	ordered_qty = models.PositiveIntegerField()
+	delivered_qty = models.PositiveIntegerField()
+	note = models.TextField(max_length=20, blank=True)
 	class meta:
-		unique_together = ('sales_order_id', 'product_id')
+		verbose_name = 'Ordered item'
+		verbose_name_plural = 'Ordered items'
+		unique_together = ('order_id', 'product')
 
 
 	def total(self):
 		pass
 
 	def __str__(self):
-		return (str(self.sales_order_id), str(self.product_id))
+		return '%s' %(self.product.name)
 

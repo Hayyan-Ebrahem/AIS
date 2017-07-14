@@ -22,7 +22,7 @@ class Category(models.Model):
 		return self.name
 
 class Product(models.Model):
-	product_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	product_id = models.AutoField(primary_key=True)
 	name = models.TextField(max_length=10)
 	slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
 	product_code = models.CharField(max_length=10)

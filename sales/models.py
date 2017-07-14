@@ -21,17 +21,14 @@ class SalesOrder(models.Model):
 
 	)
 
-	sale_order_id  = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+	sale_order_id  = models.AutoField(primary_key=True)
 	customer = models.ForeignKey(Customer, related_name='orders',  on_delete=models.CASCADE)
 	customer_order_no = models.IntegerField()
 	customer_order_date = models.DateTimeField()
 	payment_term = models.CharField(max_length=5, choices=payment_terms, default='EOM')
-	#shipment_term = models.TextField(max_length=50, choices=payment_terms,default=EOM)
-	#price_list_code = models.ForeignKey(PriceList, related_name='price_list', on_delete=models.CASCADE)
 	create_at = models.DateTimeField(auto_now_add=True)
 	status = models.CharField(max_length=5, choices=status_choices, default='WIP')
-	#sales_order_items = models.ManyToManyField(Product, 
-    #    through='SalesOrderDetails')
+
 	class Meta:
  		ordering = ['-create_at']
 		#verbose_name = 'Order'

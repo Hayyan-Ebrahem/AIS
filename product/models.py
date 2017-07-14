@@ -4,11 +4,15 @@ from django.core.validators import MinValueValidator
 import uuid
 
 class Category(models.Model):
-	code = models.CharField(max_length=10, unique=True)
+	#code = models.CharField(max_length=10, unique=True)
 	name = models.CharField(max_length=20)
 	description = models.TextField(max_length=50, blank=True)
 	created_at = models.DateTimeField(auto_now_add=True, editable=False)
 	updated_at = models.DateTimeField(auto_now=True)
+
+	@property
+	def code(self):
+		return '%s-%s' %(self.id,self.name)
 
 	class Meta:
 		ordering = ['-created_at']

@@ -22,7 +22,7 @@ class SalesOrder(models.Model):
 	)
 
 	sale_order_id  = models.AutoField(primary_key=True)
-	customer = models.ForeignKey(Customer, related_name='orders',  on_delete=models.CASCADE)
+	customer = models.ForeignKey(Customer, related_name='orders', on_delete=models.CASCADE)
 	customer_order_no = models.IntegerField()
 	customer_order_date = models.DateTimeField()
 	payment_term = models.CharField(max_length=5, choices=payment_terms, default='EOM')

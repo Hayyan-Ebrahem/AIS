@@ -21,6 +21,9 @@ class Category(models.Model):
 	def __str__(self):
 		return self.name
 
+	def get_absoulte_url(self):
+		return reverse('products:category_list', args=[str(self.id)])
+
 class Product(models.Model):
 	product_id = models.AutoField(primary_key=True)
 	name = models.TextField(max_length=10)
@@ -40,6 +43,9 @@ class Product(models.Model):
 
 	def __str__(self):
 		return self.name
+
+	def get_absoulte_url(self):
+		return reverse('products:detail', args=[str(self.slug)])
 
 # class ProductCategories(models.Model):
 	# product = models.ForeignKey(Product, on_delete=models.CASCADE)

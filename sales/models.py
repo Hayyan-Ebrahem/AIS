@@ -45,6 +45,7 @@ class SalesOrderDetail(models.Model):
 	ordered_qty = models.PositiveIntegerField()
 	delivered_qty = models.PositiveIntegerField()
 	note = models.TextField(max_length=20, blank=True)
+	
 	class meta:
 		verbose_name = 'Ordered item'
 		verbose_name_plural = 'Ordered items'

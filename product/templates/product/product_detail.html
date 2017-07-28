@@ -1,0 +1,8 @@
+<h2>{{ product.name }}</h2>
+    <ul>
+        {% for product in product_details %}
+            <li> {{ product.price }}</li>
+            <li> {{ product.categories }}</li>
+            <li> {{ product.code }}</li>
+        {% endfor %}
+    </ul>

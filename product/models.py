@@ -1,6 +1,7 @@
 from django.db import models
 from djmoney.models.fields import MoneyField
 from django.core.validators import MinValueValidator
+from django.core.urlresolvers import reverse
 import uuid
 
 class Category(models.Model):

@@ -4,12 +4,13 @@ from django.conf import settings
 from django.db.models.functions import Concat
 import datetime
 from datetime import timedelta
+import uuid
 
 
 # from product.models import PriceList
 
 class Category(models.Model):
-    code = models.TextField(primary_key=True, max_length=30)
+    category_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name  = models.TextField(max_length=50, unique=True)
     created_at = models.DateField(auto_now_add=True)
     # should be related to user table will be done later
@@ -48,7 +49,7 @@ class Customer(models.Model):
 
     period_choices=((first_choice, 'day'), (second_choice, 'month'), (third_choice, 'year'))
 
-    code = models.CharField(primary_key=True, max_length=10)
+    customer_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     name = models.TextField(max_length=10, unique=True)
     address = models.TextField(max_length=20)
     phone_no = models.CharField(max_length=10, unique=True)

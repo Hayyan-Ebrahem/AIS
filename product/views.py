@@ -6,14 +6,19 @@ class ProductListView(ListView):
     model = Product
     template_name = 'product/product_list.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(ProductListView, self).get_context_data(**kwargs)
-    #     context['product_list'] = self.object_list
-    #     return context
 
 
-    def get_geryset(self):
-        return super(ProductManager, self).get_queryset()
+    def get_context_data(self, **kwargs):
+        context = super(ProductListView, self).get_context_data(**kwargs)
+        qs = Product.objects.all()
+        df = qs.to_dataframe()
+        context['product_list'] = df.describe().to_html
+
+        return context
+
+
+    # def get_geryset(self):
+    #     return super(ProductManager, self).get_queryset()
 
 
 class ProductDetailView(DetailView):

@@ -15,17 +15,11 @@ class ProductManager(models.Manager):
     def get_by_natural_key(self, name):
         return self.get(name=name)
 
-    def __init__(self, *args, **kwargs):
-        print ('#############class ProductManager self is: ', type(self))
-        super(ProductManager, self).__init__(*args, **kwargs)
-        # Cache shared by all the get_for_* methods to speed up
-        # ContentType retrieval.
-        self._cache = {}
 
-# class PandasQuerySet(QuerySet):
+class PandasQuerySet(QuerySet):
 
-#     def get_queryset(self):
-#     	return self.values_list()
+    def get_queryset(self):
+    	return self.values_list()
 
 # class PandasManager(BaseManager.from_queryset(PandasQuerySet)):
 # 	print('PandasManager PandasQuerySet is:', PandasQuerySet())

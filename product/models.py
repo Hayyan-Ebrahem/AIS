@@ -3,6 +3,7 @@ from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
 from .managers import ProductManager
+from django_pandas.managers import DataFrameManager
 import uuid
 
 class Category(models.Model):
@@ -46,7 +47,7 @@ class Product(ProductClass):
     attributes = HStoreField()
     updated_at = models.DateTimeField(auto_now=True, null=True)
 
-    objects = ProductManager()
+    objects = DataFrameManager()
 
     def __str__(self):
         return self.name

@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_extensions',
+    'django.contrib.postgres',
     'djmoney',
     'sales',
     'customer',
@@ -58,10 +59,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'ais.urls'
 
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates'),
+        ],
+
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -81,11 +86,16 @@ WSGI_APPLICATION = 'ais.wsgi.application'
 # https://docs.djangoproject.com/en/1.11/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+   'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'ais',
+        'USER': 'hayyan',
+        'PASSWORD': 'hayyan',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
+
 
 
 # Password validation

@@ -46,9 +46,7 @@ class Product(ProductClass):
     attributes = HStoreField()
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
-    class Meta:
-        manager_inheritance_from_future = True 
-        
+
     objects = DataFrameManager()
 
     def __str__(self):

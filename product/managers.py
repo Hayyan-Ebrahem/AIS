@@ -17,78 +17,25 @@ from django_pandas.io import read_frame
 # class OtherMixin(object):
 # 	pass
 
-class PandasQuerySet(QuerySet):
+class PandasQuerySet(DataFrame):
     
-    # def __init__(self, model, using, hints):
-    #     print('()()()()()()()()()())(()()()()()) Here it goes expected self on PandasQuerySet is DataFrame ', dir(PandasQuerySet))
-    # #     #super(PandasQuerySet, self).__init__(data=None, index=None, columns=None, dtype=None, copy=False)
+    def __init__(self, model, using, hints):
+        print('()()()()()()()()()())(()()()()()) Here it goes expected self on PandasQuerySet is DataFrame ', dir(PandasQuerySet))
+        super(PandasQuerySet, self).__init__()
     # # # #print('__init__ self is: ', type(self))
         #print('PPP ', type(self))
         #super(PandasQuerySet, self).__init__()
         # self.model = 'Produuuuuuuuuuuuct'
         # self.using = None
         # self.hints = None
-    def read_frame(qs, fieldnames=(), index_col=None, coerce_float=False,
-               verbose=True):
-    
-        if fieldnames:
-            if index_col is not None and index_col not in fieldnames:
-                # Add it to the field names if not already there
-                fieldnames = tuple(fieldnames) + (index_col,)
-            fields = to_fields(qs, fieldnames)
-        elif is_values_queryset(qs):
-            if django.VERSION < (1, 9):
-                if django.VERSION < (1, 8):
-                    annotation_field_names = qs.aggregate_names
-                else:
-                    annotation_field_names = list(qs.query.annotation_select)
 
-                if annotation_field_names is None:
-                    annotation_field_names = []
+    # def deconstruct(self):
+    #     name, path, args, kwargs = super(PandasQuerySet, self).deconstruct()
+        
+    #     return name, path, args, kwargs
 
-                extra_names = qs.extra_names
-                if extra_names is None:
-                    extra_names = []
-
-                fieldnames = qs.field_names + annotation_field_names + extra_names
-
-                fields = [None if '__' in f else qs.model._meta.get_field(f)
-                          for f in qs.field_names] + \
-                    [None] * (len(annotation_field_names) + len(extra_names))
-
-            else:
-                annotation_field_names = list(qs.query.annotation_select)
-
-                select_field_names = list(qs.query.values_select)
-                extra_field_names = list(qs.query.extra_select)
-
-                fieldnames = select_field_names + annotation_field_names \
-                    + extra_field_names
-
-                fields = [None if '__' in f else qs.model._meta.get_field(f)
-                          for f in select_field_names] + \
-                    [None] * (len(annotation_field_names) + len(extra_field_names))
-        else:
-            fields = qs.model._meta.fields
-            fieldnames = [f.name for f in fields]
-
-        fieldnames = pd.unique(fieldnames)
-
-        if is_values_queryset(qs):
-            recs = list(qs)
-        else:
-            recs = list(qs.values_list(*fieldnames))
-
-        df = pd.DataFrame.from_records(recs, columns=fieldnames,
-                                       coerce_float=coerce_float)
-
-        if verbose:
-            update_with_verbose(df, fieldnames, fields)
-
-        if index_col is not None:
-            df.set_index(index_col, inplace=True)
-
-        return df
+    def html(self):
+        return self.html
 
     def to_pivot_table(self, fieldnames=(), verbose=True,
                            values=None, rows=None, cols=None,
@@ -143,7 +90,7 @@ class PandasQuerySet(QuerySet):
     def to_dataframe(self, fieldnames=(), verbose=True, index=None,
                          coerce_float=False):
   
-        print (' %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%TO_DATAFRAME', self)
+        
         return read_frame(self, fieldnames=fieldnames, verbose=verbose,
                               index_col=index, coerce_float=coerce_float)
 
@@ -171,19 +118,19 @@ class DataFrameManagerMixin(object):
         """
         Return queryset limited to not removed entries.
         """
-        #print('I have no idea what is this self ', self,' ')
+        print('I have no idea what is this self ', self,' self.hints',self._hints)
         #qs = super(DataFrameManagerMixin, self).get_queryset()
         kwargs = {'model': self.model, 'using': self._db}
         if hasattr(self, '_hints'):
             kwargs['hints'] = self._hints
-        print('\n\n\n++++++++++++++++++++++++++++ DataFrameMixin first class inherited override get_queryset() this is the first call to get_queryset() on any Manager self is :', 
-        	self,'and _queryset_class :',self._queryset_class,' \n and dir(self._queryset_class)', dir(self._queryset_class))
+        
         #rint('@@@@ In get_queryset dir(PandasQuerySet) :', dir(PandasQuerySet))
         return self._queryset_class(**kwargs)
 
 
-class PandasDataFrameManager(DataFrameManagerMixin, models.Manager.from_queryset(DataFrame)):
-    pass
+class PandasDataFrameManager(DataFrameManagerMixin, models.Manager.from_queryset(QuerySet)):
+    use_in_migrations = True
+
 # class DataFrameQuerySet(QuerySet):
 
 

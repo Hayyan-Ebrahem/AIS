@@ -41,6 +41,7 @@ class ProductClass(models.Model):
         return self.name
 
 class Product(ProductClass):
+
     description = models.TextField(max_length=120)
     categories = models.ManyToManyField(Category,related_name='products')
     #price = MoneyField(max_digits=12, decimal_places=2)
@@ -48,13 +49,12 @@ class Product(ProductClass):
     attributes = HStoreField()
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
+    # class Meta:
+    #     base_manager_name = MyPandas
 
-    objects = models.Manager()
-    pandas = PandasDataFrameManager()
+    # #objects = models.Manager()
+    analytics = PandasDataFrameManager()
 
-
-    def __str__(self):
-        return self.name
 
     def get_absoulte_url(self):
         return reverse('products:detail', args=[str(self.slug)])

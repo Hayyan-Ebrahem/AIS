@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
-from .managers import ProductManager, DataFrameManager
+from .managers import DataFrameManager
 import uuid
 
 class Category(models.Model):

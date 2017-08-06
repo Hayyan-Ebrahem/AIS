@@ -12,13 +12,14 @@ class ProductListView(ListView):
         context = super(ProductListView, self).get_context_data(**kwargs)
         qs = Product.objects.all()
         #df = qs.to_dataframe()
-        context['product_list'] = qs
+        context['context_object_name'] = 'Product_list'
+        context['product_list'] = qs.describe()
 
         return context
 
-
-    # def get_geryset(self):
-    #     return super(ProductManager, self).get_queryset()
+    def get_geryset(self):
+        print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWWWWWWW')
+        return super(ProductListView, self).get_queryset()
 
 
 class ProductDetailView(DetailView):

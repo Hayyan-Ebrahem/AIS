@@ -17,12 +17,12 @@ from django_pandas.io import read_frame
 # class OtherMixin(object):
 # 	pass
 
-class PandasQuerySet(DataFrame):
+class PandasQuerySet(QuerySet):
     
-    def __init__(self, model, using, hints):
-        print('()()()()()()()()()())(()()()()()) Here it goes expected self on PandasQuerySet is DataFrame ', dir(PandasQuerySet))
-        super(PandasQuerySet, self).__init__()
-    # # # #print('__init__ self is: ', type(self))
+    # def __init__(self, model, using, hints):
+    #     print('()()()()()()()()()())(()()()()()) Here it goes expected self on PandasQuerySet is DataFrame ', dir(PandasQuerySet))
+    #     return super(PandasQuerySet, self).__init__()
+    # # # # #print('__init__ self is: ', type(self))
         #print('PPP ', type(self))
         #super(PandasQuerySet, self).__init__()
         # self.model = 'Produuuuuuuuuuuuct'
@@ -35,7 +35,7 @@ class PandasQuerySet(DataFrame):
     #     return name, path, args, kwargs
 
     def html(self):
-        return self.html
+        return self
 
     def to_pivot_table(self, fieldnames=(), verbose=True,
                            values=None, rows=None, cols=None,
@@ -128,7 +128,7 @@ class DataFrameManagerMixin(object):
         return self._queryset_class(**kwargs)
 
 
-class PandasDataFrameManager(DataFrameManagerMixin, models.Manager.from_queryset(QuerySet)):
+class PandasDataFrameManager(DataFrameManagerMixin, models.Manager.from_queryset(DataFrame)):
     use_in_migrations = True
 
 # class DataFrameQuerySet(QuerySet):

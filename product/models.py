@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
-from .managers import DataFrameManager
+from .managers import PandasDataFrameManager
 import uuid
 
 class Category(models.Model):
@@ -32,6 +32,8 @@ class ProductClass(models.Model):
     min_stock_level = models.PositiveIntegerField()
     recorded_stock_level = models.PositiveIntegerField()
 
+    def test_func(self):
+        return 'HHHHHHHHHHHH'
     class Meta:
         abstract = True
 
@@ -47,7 +49,9 @@ class Product(ProductClass):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
 
-    objects = DataFrameManager()
+    objects = models.Manager()
+    pandas = PandasDataFrameManager()
+
 
     def __str__(self):
         return self.name

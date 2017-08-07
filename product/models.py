@@ -2,7 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
-from .managers import PandasDataFrameManager
+from .managers import PandasDataFrameManager, PandasQuerySet
+from pandas import DataFrame
 import uuid
 
 class Category(models.Model):
@@ -53,7 +54,7 @@ class Product(ProductClass):
     #     base_manager_name = MyPandas
 
     # #objects = models.Manager()
-    analytics = PandasDataFrameManager()
+    analytics = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
 
 
     def get_absoulte_url(self):

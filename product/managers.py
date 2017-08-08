@@ -7,7 +7,12 @@ from django.db.models.query import QuerySet
 from django.db.models.manager import BaseManager
 from django_pandas.io import read_frame
 class DF(DataFrame):
+    def __getattr__(self,key):
+        print ('DF_____getattr____  key is :',key)
+        return super(DF,self).getattr(key)
+
     def __init__(self, *args, **kwargs):
+        print (*args)
         super(DF, self).__init__(*args, **kwargs)
     @property
     def _constructor(self):
@@ -18,8 +23,10 @@ class DF(DataFrame):
 
 class PandasQuerySet(QuerySet):
 
-    # def __getattr__(self,key):
-    #     return PandasDataFrameManager.__dict__[key]
+    def __getattr__(self,key):
+        print ('_____getattr____')
+        super(PandasQuerySet,self).__getitem__(key)
+
     # #@property
     # def _constructor(self):
     #     return PandasQuerySet
@@ -29,7 +36,7 @@ class PandasQuerySet(QuerySet):
     def __init__(self,*args,**kwargs):
 
         super(PandasQuerySet,self).__init__(*args,**kwargs)
-        self.df = DF
+        self.df = DataFrame
 
     def to_pivot_table(self, fieldnames=(), verbose=True,
                            values=None, rows=None, cols=None,
@@ -99,6 +106,3 @@ class PandasDataFrameManager( BaseManager.from_queryset(DataFrame)):
             kwargs['hints'] = self._hints
         return self._queryset_class(**kwargs)
 
-
-
-print (dir(PandasDataFrameManager))

@@ -36,7 +36,11 @@ class ProductClass(models.Model):
     def test_func(self):
         return 'HHHHHHHHHHHH'
     class Meta:
+        manager_inheritance_from_future = True 
         abstract = True
+
+    # #objects = models.Manager()
+    analytics = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
 
     def __str__(self):
         return self.name
@@ -50,8 +54,8 @@ class Product(ProductClass):
     attributes = HStoreField()
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
-    # class Meta:
-    #     base_manager_name = MyPandas
+    class Meta:
+        manager_inheritance_from_future = True 
 
     # #objects = models.Manager()
     analytics = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()

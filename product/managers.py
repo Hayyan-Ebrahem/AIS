@@ -6,28 +6,30 @@ from pandas import DataFrame
 from django.db.models.query import QuerySet
 from django.db.models.manager import BaseManager
 from django_pandas.io import read_frame
-
-
-class PandasQuerySet(DataFrame):
-    # def __getattr__(self,key):
-    #     print ('__getattr__', key)
-    #     if isinstance(self,A):
-    #         super(A,self).__getattr__(key)
-    #     else:
-
-    #         getattr(self,key)
-
-    # def __init__(self,using,model,hints):
-    #     self.using = using
-    #     self.model = model
-    #     self.hints = hints
+class DF(DataFrame):
+    def __init__(self, *args, **kwargs):
+        super(DF, self).__init__(*args, **kwargs)
     @property
     def _constructor(self):
-        return PandasQuerySet
+        return DF
     @property
     def _constructor_sliced(self):
-        return PandasQuerySet
+        return DF   
 
+class PandasQuerySet(QuerySet):
+
+    # def __getattr__(self,key):
+    #     return PandasDataFrameManager.__dict__[key]
+    # #@property
+    # def _constructor(self):
+    #     return PandasQuerySet
+    # @property
+    # def _constructor_sliced(self):
+    #     return PandasQuerySet
+    def __init__(self,*args,**kwargs):
+
+        super(PandasQuerySet,self).__init__(*args,**kwargs)
+        self.df = DF
 
     def to_pivot_table(self, fieldnames=(), verbose=True,
                            values=None, rows=None, cols=None,
@@ -86,23 +88,17 @@ class PandasQuerySet(DataFrame):
         return read_frame(self, fieldnames=fieldnames, verbose=verbose,
                               index_col=index, coerce_float=coerce_float)
 
-class DataFrameManagerMixin(object):
- 
+
+class PandasDataFrameManager( BaseManager.from_queryset(DataFrame)):
+
     _queryset_class = PandasQuerySet
 
     def get_queryset(self):
         kwargs = {'model': self.model, 'using': self._db}
         if hasattr(self, '_hints'):
             kwargs['hints'] = self._hints
-        
-        return self._queryset_class()
-
-
-class PandasDataFrameManager(DataFrameManagerMixin, BaseManager.from_queryset(DataFrame)):
-
-    pass
+        return self._queryset_class(**kwargs)
 
 
 
-
-
+print (dir(PandasDataFrameManager))

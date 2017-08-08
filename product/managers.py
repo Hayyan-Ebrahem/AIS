@@ -36,7 +36,7 @@ class PandasQuerySet(QuerySet):
     def __init__(self,*args,**kwargs):
 
         super(PandasQuerySet,self).__init__(*args,**kwargs)
-        self.df = DataFrame
+        self.df = DataFrame(list(self.model._base_manager.all().values()))
 
     def to_pivot_table(self, fieldnames=(), verbose=True,
                            values=None, rows=None, cols=None,

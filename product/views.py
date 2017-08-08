@@ -13,8 +13,7 @@ class ProductListView(ListView):
         qs = Product.analytics.all()
         #df = qs.to_dataframe()
         #context['context_object_name'] = 'product_list'
-        context['product_list'] = qs
-
+        context['product_list'] = qs.df
         return context
 
     def get_geryset(self):

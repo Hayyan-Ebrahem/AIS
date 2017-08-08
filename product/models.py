@@ -57,7 +57,7 @@ class Product(ProductClass):
     class Meta:
         manager_inheritance_from_future = True 
 
-    # #objects = models.Manager()
+    objects = models.Manager()
     analytics = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
 
 

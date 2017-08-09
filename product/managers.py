@@ -23,18 +23,15 @@ from django_pandas.io import read_frame
 
 class PandasQuerySet(QuerySet):
 
+
     def __init__(self,*args,**kwargs):
         super(PandasQuerySet,self).__init__(*args,**kwargs)
-        self.df = DataFrame#(list(self.model._base_manager.all().values()))
-  
-    def qsdf(self):
-        return self.df(list(self.values()))
-
-    def __getattr__(self,name):
+        self._data_frame = DataFrame#(list(self.model._base_manager.all().values()))
         
-        return self.qsdf().name
 
-   
+    @property
+    def df(self):
+        return self._data_frame(list(self.values()))
 
 class PandasDataFrameManager( BaseManager.from_queryset(DataFrame)):
 

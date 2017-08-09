@@ -36,11 +36,8 @@ class ProductClass(models.Model):
     def test_func(self):
         return 'HHHHHHHHHHHH'
     class Meta:
-        manager_inheritance_from_future = True 
         abstract = True
 
-    # #objects = models.Manager()
-    analytics = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
 
     def __str__(self):
         return self.name

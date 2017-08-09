@@ -11,7 +11,7 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         qs = Product.analytics.all()
-        df = qs._qsdf
+        df = qs.df
         #context['context_object_name'] = 'product_list'
         context['product_list'] = df.describe()
         return context

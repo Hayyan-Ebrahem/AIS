@@ -28,12 +28,13 @@ class PandasQuerySet(QuerySet):
         super(PandasQuerySet,self).__init__(*args,**kwargs)
         self._data_frame = DataFrame#(list(self.model._base_manager.all().values()))
         
-
+    def test(self):
+        return 'ddddddddddd'
     @property
     def df(self):
         return self._data_frame(list(self.values()))
 
-class PandasDataFrameManager( BaseManager.from_queryset(DataFrame)):
+class PandasDataFrameManager(BaseManager.from_queryset(PandasQuerySet)):
 
     _queryset_class = PandasQuerySet
 

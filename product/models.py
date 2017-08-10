@@ -55,7 +55,7 @@ class Product(ProductClass):
         manager_inheritance_from_future = True 
 
     objects = models.Manager()
-    analytics = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
+    analysis = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
 
 
     def get_absoulte_url(self):

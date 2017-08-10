@@ -1,9 +1,7 @@
 from django.db import models
-from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
-from .managers import PandasDataFrameManager, PandasQuerySet
-from pandas import DataFrame
+from .managers import PandasDataFrameManager
 import uuid
 
 class Category(models.Model):
@@ -51,8 +49,9 @@ class Product(ProductClass):
     attributes = HStoreField()
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
-    class Meta:
-        manager_inheritance_from_future = True 
+    # class Meta:
+    #     #manager_inheritance_from_future = True 
+    #     base_manager_name = PandasDataFrameManager
 
     objects = models.Manager()
     analysis = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()

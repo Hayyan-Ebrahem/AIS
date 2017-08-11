@@ -2,7 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
 from .managers import PandasDataFrameManager
-import uuid
+from djmoney.models.fields import MoneyField
 
 class Category(models.Model):
     #code = models.CharField(max_length=10, unique=True)
@@ -21,10 +21,10 @@ class Category(models.Model):
 
 class ProductClass(models.Model):
     name = models.TextField(max_length=10)
-    slug = models.SlugField(max_length=20, unique=True, help_text='Unique value for product page URL, created from name.')
+    slug = models.SlugField(max_length=10, unique=True, help_text='Unique value for product page URL, created from name.')
     product_code = models.CharField(max_length=10)
     has_variants = models.BooleanField(default=True)
-    #price = MoneyField(max_digits=10, decimal_places=2, default_currency='USD')
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     max_stock_level = models.PositiveIntegerField()
@@ -33,6 +33,7 @@ class ProductClass(models.Model):
 
     def test_func(self):
         return 'HHHHHHHHHHHH'
+        
     class Meta:
         abstract = True
 
@@ -44,9 +45,9 @@ class Product(ProductClass):
 
     description = models.TextField(max_length=120)
     categories = models.ManyToManyField(Category,related_name='products')
-    #price = MoneyField(max_digits=12, decimal_places=2)
+    price = models.DecimalField(max_digits=6, decimal_places=2)
     available_on = models.DateField(blank=True, null=True)
-    attributes = HStoreField()
+    attributes = HStoreField(default={},null=True)
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
     # class Meta:
@@ -63,7 +64,7 @@ class Product(ProductClass):
 
 class ProductVariant(Product):
     sku = models.CharField(max_length=32, unique=True)
-    #price_override = MoneyField(max_digits=12, decimal_places=2,blank=True, null=True)
+    price_override = models.DecimalField(max_digits=6, decimal_places=2)
     product = models.ForeignKey(Product, related_name='variants')
    
     

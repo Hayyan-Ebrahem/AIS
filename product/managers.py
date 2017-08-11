@@ -1,28 +1,13 @@
 from django.db import models
 from django.db.models import Q
 import datetime
-#from .models import Product
+from django.utils import six
 from pandas import DataFrame
 from django.db.models.query import QuerySet
 from django.db.models.manager import BaseManager
 from django_pandas.io import read_frame
-# class DF(DataFrame):
-#     def __getattr__(self,key):
-#         print ('DF_____getattr____  key is :',key)
-#         return super(DF,self).getattr(key)
-
-#     def __init__(self, *args, **kwargs):
-#         print (*args)
-#         super(DF, self).__init__(*args, **kwargs)
-#     @property
-#     def _constructor(self):
-#         return DF
-#     @property
-#     def _constructor_sliced(self):
-#         return DF   
 
 class PandasQuerySet(QuerySet):
-
 
     def __init__(self,*args,**kwargs):
         super(PandasQuerySet,self).__init__(*args,**kwargs)
@@ -34,12 +19,11 @@ class PandasQuerySet(QuerySet):
         else:
             raise AttributeError("%r object has no attribute %r" %(self.__class__, attr))
 
-    def __getitem__(self, key):
-        if key in dir(self.df):
-            print('Found')
-            return self.df[key]
+    def __getitem__(self, k):
+        if not isinstance(k, (slice,) + six.integer_types):
+            return self.df[k]
         else:
-            return super(PandasQuerySet,self).__getitem__(key)
+            return super(PandasQuerySet,self).__getitem__(k)
 
     def test(self):
         return 'ddddddddddd'

@@ -10,17 +10,10 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
-        qs = Product.analytics.all()
-        df = qs.to_dataframe()
+        qs = Product.analysis.all()
         #context['context_object_name'] = 'product_list'
-        context['product_list'] = df
-
+        context['product_list'] = qs
         return context
-
-    def get_geryset(self):
-        print('WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWWWWWWW')
-        return super(ProductListView, self).get_queryset()
-
 
 class ProductDetailView(DetailView):
     model = Product
@@ -32,6 +25,5 @@ class ProductDetailView(DetailView):
         return context
 
 
-    def get_queryset(self):
-    	print (' 1111 this should be first query ever on ProductManager as this is ProductDetailView() get_queryset and self is :',self)
-    	return super(ProductDetailView,self).get_queryset()
+    # def get_queryset(self):
+    # 	return super(ProductDetailView,self).get_queryset()

@@ -1,5 +1,4 @@
 from django.db import models
-from django.core.validators import MinValueValidator
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
 from .managers import PandasDataFrameManager
@@ -37,6 +36,7 @@ class ProductClass(models.Model):
     class Meta:
         abstract = True
 
+
     def __str__(self):
         return self.name
 
@@ -50,10 +50,11 @@ class Product(ProductClass):
     updated_at = models.DateTimeField(auto_now=True, null=True)
     
     # class Meta:
-    #     base_manager_name = MyPandas
+    #     #manager_inheritance_from_future = True 
+    #     base_manager_name = PandasDataFrameManager
 
-    # #objects = models.Manager()
-    analytics = PandasDataFrameManager()
+    objects = models.Manager()
+    analysis = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
 
 
     def get_absoulte_url(self):

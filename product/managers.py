@@ -29,7 +29,17 @@ class PandasQuerySet(QuerySet):
         self._data_frame = DataFrame#(list(self.model._base_manager.all().values()))
     
     def __getattr__(self, attr):
-        return getattr(self.df, attr)
+        if attr in dir(self.df):
+            return getattr(self.df, attr)
+        else:
+            raise AttributeError("%r object has no attribute %r" %(self.__class__, attr))
+
+    def __getitem__(self, key):
+        if key in dir(self.df):
+            print('Found')
+            return self.df[key]
+        else:
+            return super(PandasQuerySet,self).__getitem__(key)
 
     def test(self):
         return 'ddddddddddd'

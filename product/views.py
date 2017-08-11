@@ -15,11 +15,6 @@ class ProductListView(ListView):
         context['product_list'] = qs
         return context
 
-    # def get_queryset(self):
-    #     print('jjjjjjjjjjjjjjjjjjj')
-    #     return super(ProductListView, self).get_queryset()
-
-
 class ProductDetailView(DetailView):
     model = Product
     template_name = 'product/product_detail.html'

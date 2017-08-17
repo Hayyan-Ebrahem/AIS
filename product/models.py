@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.postgres.fields import HStoreField
 from .managers import PandasDataFrameManager
+from .proxy import QuerySetDataFrame
 from djmoney.models.fields import MoneyField
 
 class Category(models.Model):
@@ -55,7 +56,7 @@ class Product(ProductClass):
     #     base_manager_name = PandasDataFrameManager
 
     objects = models.Manager()
-    analysis = PandasDataFrameManager()#.from_queryset(PandasQuerySet)()
+    analysis = QuerySetDataFrame #.from_queryset(PandasQuerySet)()
 
 
     def get_absoulte_url(self):

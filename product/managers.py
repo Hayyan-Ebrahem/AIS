@@ -10,8 +10,8 @@ from django_pandas.io import read_frame
 class PandasQuerySet(QuerySet):
 
     def __init__(self,*args,**kwargs):
-        super(PandasQuerySet,self).__init__(*args,**kwargs)
         self._data_frame = DataFrame#(list(self.model._base_manager.all().values()))
+        super(PandasQuerySet,self).__init__(*args,**kwargs)
     
     def __getattr__(self, attr):
         if attr in dir(self.df):

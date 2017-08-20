@@ -56,7 +56,7 @@ class Product(ProductClass):
     #     base_manager_name = PandasDataFrameManager
 
     objects = models.Manager()
-    analysis = QuerySetDataFrame #.from_queryset(PandasQuerySet)()
+    analysis = PandasDataFrameManager() #.from_queryset(PandasQuerySet)()
 
 
     def get_absoulte_url(self):

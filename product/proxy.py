@@ -5,19 +5,17 @@ from django.utils import six
 
 
 class QuerySetDataFrame(QuerySet):
-    def __init__(self,*args,**kwargs):
-        super(QuerySetDataFrame,self).__init__(*args,**kwargs)
-        self._data_frame = DataFrame#(list(self.model._base_manager.all().values()))
+    def __init__(self):
+        super(QuerySetDataFrame,self).__init__()
+        self = DataFrame(list(self.values()))#(list(self.model._base_manager.all().values()))
         self.name = None
 
     
     def __getattr__(self, attr):
-        print('attr:',sttr,'\n')
-        if attr in dir(self.df):
-            return getattr(self.df, attr)
-        else:
-            raise AttributeError("%r object has no attribute %r" %(self.__class__, attr))
+        print('attr:',attr,'\n')
 
+        return getattr(self, attr)
+    
     def __getitem__(self, k):
         if not isinstance(k, (slice,) + six.integer_types):
             return self.df[k]

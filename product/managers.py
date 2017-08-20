@@ -10,7 +10,6 @@ from django_pandas.io import read_frame
 class PandasQuerySet(QuerySet):
 
     def __init__(self,*args,**kwargs):
-        self._data_frame = DataFrame#(list(self.model._base_manager.all().values()))
         super(PandasQuerySet,self).__init__(*args,**kwargs)
     
     def __getattr__(self, attr):
@@ -30,7 +29,7 @@ class PandasQuerySet(QuerySet):
 
     @property
     def df(self):
-        return self._data_frame(list(self.values()))
+        return DataFrame(list(self.values()))
 
 class PandasDataFrameManager(BaseManager.from_queryset(DataFrame)):
 
